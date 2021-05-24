@@ -13,18 +13,18 @@ private val repositoryImpl : Repository = RepositoryImpl()
                     ) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(isRussian = true)
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(isRussian = false)
+    fun getWeatherFromRemoteSource() = getDataFromLocalSource(isRussian = true)
 
-    fun getWeatherFromLocalSource() = getDataFromLocalSource()
-
-    fun getWeatherFromRemoteSource() = getDataFromLocalSource()
-
-    private fun getDataFromLocalSource() {
+    private fun getDataFromLocalSource(isRussian : Boolean) {
         val random: Int = Random.nextInt(1,4)
+        liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(1000)
-
-            if(random%2 !=0) liveDataToObserve.postValue(AppState.Success(repositoryImpl.getWeatherFromLocalStorage()))
-            else liveDataToObserve.postValue(AppState.Error(Any()))
+            liveDataToObserve.postValue(AppState.Success(if (isRussian)
+                repositoryImpl.getWeatherFromLocalStorageRus() else
+                repositoryImpl.getWeatherFromLocalStorageWorld()))
         }.start()
     }
 }
