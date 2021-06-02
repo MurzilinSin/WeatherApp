@@ -21,7 +21,7 @@ private val repositoryImpl : Repository = RepositoryImpl()
         val random: Int = Random.nextInt(1,4)
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(1000)
+            //sleep(500)
             liveDataToObserve.postValue(AppState.Success(if (isRussian)
                 repositoryImpl.getWeatherFromLocalStorageRus() else
                 repositoryImpl.getWeatherFromLocalStorageWorld()))

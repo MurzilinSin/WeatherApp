@@ -3,12 +3,17 @@ package com.example.weatherproject.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherproject.R
+import com.example.weatherproject.databinding.MainActivityBinding
+import com.example.weatherproject.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: MainActivityBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        binding = MainActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(
