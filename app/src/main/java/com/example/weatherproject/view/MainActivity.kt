@@ -1,10 +1,14 @@
 package com.example.weatherproject.view
 
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.weatherproject.R
 import com.example.weatherproject.databinding.MainActivityBinding
+import com.example.weatherproject.view.main.MainBroadcast
 import com.example.weatherproject.view.main.MainFragment
+
+private val receiver = MainBroadcast()
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,5 +26,11 @@ class MainActivity : AppCompatActivity() {
                     )
                     .commitNow()
         }
+        registerReceiver(receiver, IntentFilter(CONNECTIVITY_SERVICE))
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(receiver)
+        super.onDestroy()
     }
 }
