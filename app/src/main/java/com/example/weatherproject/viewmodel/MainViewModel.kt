@@ -2,10 +2,8 @@ package com.example.weatherproject.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.weatherproject.model.Repository
-import com.example.weatherproject.model.RepositoryImpl
-import com.example.weatherproject.model.Weather
-import java.lang.Thread.sleep
+import com.example.weatherproject.repository.Repository
+import com.example.weatherproject.repository.RepositoryImpl
 import kotlin.random.Random
 
 class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
