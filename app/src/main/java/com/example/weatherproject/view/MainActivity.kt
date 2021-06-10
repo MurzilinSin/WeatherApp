@@ -3,8 +3,11 @@ package com.example.weatherproject.view
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.example.weatherproject.R
 import com.example.weatherproject.databinding.MainActivityBinding
+import com.example.weatherproject.view.history.HistoryFragment
 import com.example.weatherproject.view.main.MainBroadcast
 import com.example.weatherproject.view.main.MainFragment
 
@@ -27,6 +30,26 @@ class MainActivity : AppCompatActivity() {
                     .commitNow()
         }
         registerReceiver(receiver, IntentFilter(CONNECTIVITY_SERVICE))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_history, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_history -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.container, HistoryFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroy() {

@@ -8,13 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.weatherproject.R
 import com.example.weatherproject.databinding.FragmentDetailsBinding
+import com.example.weatherproject.model.City
 import com.example.weatherproject.model.Weather
 import com.example.weatherproject.utils.showSnackBar
 import com.example.weatherproject.viewmodel.AppState
 import com.example.weatherproject.viewmodel.DetailsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
-
 
 const val DETAILS_INTENT_FILTER = "DETAILS INTENT FILTER"
 const val DETAILS_LOAD_RESULT_EXTRA = "LOAD RESULT"
@@ -64,16 +64,17 @@ class DetailsFragment : Fragment() {
         when(appState) {
             is AppState.Success -> {
                 binding.mainView.visibility = View.VISIBLE
-                binding.loadingLayout.visibility = View.GONE
+
+                binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                 setWeather(appState.weatherData[0])
             }
             is AppState.Loading -> {
                 binding.mainView.visibility = View.GONE
-                binding.loadingLayout.visibility = View.VISIBLE
+                binding.includedLoadingLayout.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Error -> {
                 binding.mainView.visibility = View.VISIBLE
-                binding.loadingLayout.visibility = View.GONE
+                binding.includedLoadingLayout.loadingLayout.visibility = View.GONE
                 binding.mainView.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reload),
@@ -85,6 +86,7 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weather: Weather){
         val city = weatherBundle.city
+        saveCity(city,weather)
         binding.cityName.text = city.city
         binding.cityCoordinates.text = String.format(
             getString(R.string.city_coordinates),
@@ -106,25 +108,11 @@ class DetailsFragment : Fragment() {
                 .into(footerIcon)
     }
 
-    /*private fun renderData(weatherDTO: WeatherDTO) {
-        binding.mainView.visibility = View.VISIBLE
-        binding.loadingLayout.visibility = View.GONE
-
-        val fact = weatherDTO.fact
-        if(fact == null || fact.temp == null || fact.feels_like == null || fact.condition.isNullOrEmpty()) {
-            TODO(PROCESS_ERROR)
-        } else {
-            val city = weatherBundle.city
-            binding.cityName.text = city.city
-            binding.cityCoordinates.text = String.format(
-                    getString(R.string.city_coordinates),
-                    city.lat.toString(),
-                    city.lon.toString())
-            binding.temperatureValue.text = fact.temp.toString()
-            binding.feelsLikeValue.text = fact.feels_like.toString()
-            binding.weatherCondition.text = fact.condition
-        }
-    }*/
+    private fun saveCity(city: City, weather: Weather) {
+        viewModel.saveCityToDB(
+            Weather(city, weather.temp, weather.feelsLike,weather.condition)
+        )
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

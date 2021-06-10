@@ -6,4 +6,5 @@
     <string name="error">Ошибка</string>
     <string name="reload">Перезагрузить</string>
     <string name="changeCountries">changeCountries</string>
+    <string name="menu_title_history">history</string>
 </resources>
