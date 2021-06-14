@@ -7,4 +7,5 @@
     <string name="reload">Перезагрузить</string>
     <string name="changeCountries">changeCountries</string>
     <string name="menu_title_history">history</string>
+    <string name="content_provider">content_provider</string>
 </resources>
