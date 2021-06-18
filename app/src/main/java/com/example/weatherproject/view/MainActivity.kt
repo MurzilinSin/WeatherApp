@@ -1,6 +1,5 @@
 package com.example.weatherproject.view
 
-import android.content.ContentProvider
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +11,7 @@ import com.example.weatherproject.view.contentProvider.ContentProviderFragment
 import com.example.weatherproject.view.history.HistoryFragment
 import com.example.weatherproject.view.main.MainBroadcast
 import com.example.weatherproject.view.main.MainFragment
+import com.example.weatherproject.googlemaps.GoogleMapsFragment
 
 private val receiver = MainBroadcast()
 
@@ -56,6 +56,15 @@ class MainActivity : AppCompatActivity() {
                             .replace(R.id.container,  ContentProviderFragment.newInstance())
                             .addToBackStack("")
                             .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_google_map -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .replace(R.id.container, GoogleMapsFragment())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
                 }
                 true
             }

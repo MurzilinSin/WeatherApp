@@ -49,7 +49,7 @@ class ContentProviderFragment : Fragment() {
                             .create()
                             .show()
                 }
-                else -> {
+            else -> {
                     requestPermission()
                 }
             }
