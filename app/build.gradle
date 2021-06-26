@@ -20,17 +20,44 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file("keydev.jks")
+            storePassword 'qwe123qwe'
+            keyAlias 'keydev'
+            keyPassword 'qwe123qwe'
+        }
+    }
+
     buildTypes.each {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
         def apiKey = properties.getProperty("yandex_weather_api_key","")
         it.buildConfigField "String", "WEATHER_API_KEY", apiKey
     }
+    buildTypes.each {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("keydev.properties").newDataInputStream())
+        def keydev = properties.getProperty("developer_key","")
+        it.buildConfigField "String", "DEVELOPER_KEY", keydev
+    }
+
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
+        }
+        debug {
+            versionNameSuffix "-debug"
+            buildConfigField "String", "TYPE", '"DEBUG"'
+        }
+        staging {
+            initWith debug
+            versionNameSuffix "-staging"
+            buildConfigField "String", "TYPE", '"STAGING"'
         }
     }
     compileOptions {
@@ -42,6 +69,17 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    flavorDimensions 'version_1'
+    productFlavors {
+        beta {
+            dimension 'version_1'
+            versionNameSuffix '.beta'
+        }
+        weather {
+            dimension 'version_1'
+            versionNameSuffix '.weather'
+        }
     }
 }
 

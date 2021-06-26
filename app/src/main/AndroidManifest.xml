@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherProject">
         <service
-            android:name=".view.MyFirebaseMessagingService"
+            android:name=".view.firebase.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -46,6 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
